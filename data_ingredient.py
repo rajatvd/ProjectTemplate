@@ -13,7 +13,7 @@ def data_config():
     """Config for data source and loading"""
     batch_size = 32
     device = 'cpu'
-    val_split = 0.01
+    val_split = 0.05
     num_workers = 0 # number of subprocesses apart from main for data loading
 
 @data_ingredient.capture
