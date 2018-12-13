@@ -2,8 +2,7 @@
 head for hidden state, using the CharDecoderHead."""
 
 import torch
-from torchvision.datasets.mnist import MNIST
-from torchvision.transforms import Compose, ToTensor, Grayscale
+from mnist_dataset import MyMNIST
 from sacred import Ingredient
 
 data_ingredient = Ingredient('dataset')
@@ -44,16 +43,10 @@ def make_dataloaders(batch_size,
 
     """
 
-    to_device = lambda x:x.to(device)
-    dset = MNIST("data", download=True,
-                 transform=Compose([Grayscale(), ToTensor(), to_device]),
-                 target_transform=to_device)
+    dset = MyMNIST("data", download=True, device=device)
+    test_dset = MyMNIST("data", download=True, train=False, device=device)
 
-    test_dset = MNIST("data", download=True, train=False,
-                      transform=Compose([Grayscale(), ToTensor(), to_device]),
-                      target_transform=to_device)
-
-    _log.info("Loaded dataset")
+    _log.info(f"Loaded dataset on {device}")
 
     total = len(dset)
     train_num = int(total*(1-val_split))
@@ -83,5 +76,6 @@ def make_dataloaders(batch_size,
         num_workers=num_workers,
         shuffle=True,)
 
+        # next(iter(train_loader))
 
     return dset, train_loader, val_loader, test_loader
