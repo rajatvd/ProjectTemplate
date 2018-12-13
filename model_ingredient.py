@@ -11,22 +11,22 @@ model_ingredient = Ingredient('model')
 def model_config():
     """Config for model"""
     input_size = 28
-    channels = [32, 16]
-    output_size = 10
+    channels = [1, 32, 16]
+    denses = [10]
     activation = 'relu'
     device = 'cpu'
 
 @model_ingredient.capture
 def make_model(input_size,
                channels,
-               output_size,
+               denses,
                activation,
                device,
                _log):
     """Create ConvNet model from config"""
     model = ConvNet(input_size=input_size,
                     channels=channels,
-                    output_size=output_size,
+                    denses=denses,
                     activation=activation).to(device)
 
     params = torch.nn.utils.parameters_to_vector(model.parameters())
