@@ -38,7 +38,7 @@ def train_on_batch(model, batch, optimizer):
     loss.backward()
     optimizer.step()
 
-    return loss.cpu().detach().numpy(), st.accuracy(outputs, labels)
+    return loss.cpu().detach().numpy(), st.accuracy(outputs.cpu(), labels.cpu())
 
 
 def validate(model, val_loader):
