@@ -53,7 +53,6 @@ def make_dataloaders(batch_size,
                       transform=Compose([Grayscale(), ToTensor(), to_device]),
                       target_transform=to_device)
 
-    dset[1]
     _log.info("Loaded dataset")
 
     total = len(dset)
@@ -84,6 +83,5 @@ def make_dataloaders(batch_size,
         num_workers=num_workers,
         shuffle=True,)
 
-    imgs, labs = next(iter(train_loader))
 
     return dset, train_loader, val_loader, test_loader
