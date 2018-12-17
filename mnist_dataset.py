@@ -26,7 +26,7 @@ class MyMNIST(Dataset):
             self.labels = dset.test_labels.to(device)
 
         self.data = self.data.float()/255.0 - 0.5
-        
+        self.data = self.data.unsqueeze(1)
         self.transform = transform
         self.target_transform = target_transform
 
