@@ -1,4 +1,4 @@
-"""Ingredient for making data loaders."""
+"""Ingredient for making mnist data loaders."""
 
 import torch
 from mnist_dataset import MyMNIST
