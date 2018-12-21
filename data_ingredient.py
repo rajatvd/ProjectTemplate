@@ -1,5 +1,4 @@
-"""Ingredient for making a model with a wrapped lstm and a
-head for hidden state, using the CharDecoderHead."""
+"""Ingredient for making data loaders."""
 
 import torch
 from mnist_dataset import MyMNIST
