@@ -1,7 +1,7 @@
 """Ingredient for making a ConvNet model for MNIST"""
 
 import torch
-
+from torch import nn
 from sacred import Ingredient
 from modules import ConvNet
 
@@ -27,7 +27,11 @@ def make_model(input_size,
     model = ConvNet(input_size=input_size,
                     channels=channels,
                     denses=denses,
-                    activation=activation).to(device)
+                    activation=activation)
+    if isinstance(device, list):
+        model = nn.DataParallel(model, device_ids=device).to(device[0])
+    else:
+        model = model.to(device)
 
     params = torch.nn.utils.parameters_to_vector(model.parameters())
     num_params = len(params)

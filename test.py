@@ -1,6 +1,7 @@
 """Test a ConvNet on the MNIST dataset."""
 # %%
 import torch
+from torch import nn
 from sacred import Experiment
 
 from pytorch_utils.sacred_utils import read_config, get_model_path, import_source
@@ -31,7 +32,10 @@ def main(run_dir,
     model = model_ing.make_model(**{**config['model'], 'device':device},
                                  _log=_log)
     path = get_model_path(run_dir, epoch)
-    model.load_state_dict(torch.load(path))
+    if isinstance(model, nn.DataParallel):
+        model.module.load_state_dict(torch.load(path))
+    else:
+        model.load_state_dict(torch.load(path))
     model = model.eval()
     _log.info(f"Loaded state dict from {path}")
 
