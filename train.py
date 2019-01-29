@@ -8,6 +8,7 @@ from sacred import Experiment, SETTINGS
 from sacred.observers import FileStorageObserver
 from visdom_observer.visdom_observer import VisdomObserver
 import pytorch_utils.sacred_trainer as st
+from pytorch_utils.sacred_utils import AuthMongoDbOption
 from pytorch_utils.updaters import averager
 
 from model_ingredient import model_ingredient, make_model

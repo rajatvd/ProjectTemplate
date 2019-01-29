@@ -83,7 +83,7 @@ def validate(model, val_loader, _log=logging.getLogger("validate")):
         accuracy /= total
 
         model = model.train()
-        return val_loss.cpu().numpy(), accuracy
+        return val_loss.cpu().item(), accuracy
 
 def scheduler_generator(optimizer, milestones, gamma):
     """A generator which performs lr scheduling on the given optimizer using
