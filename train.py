@@ -92,7 +92,7 @@ def main(_run):
            **dict(_run=_run,
                   model=model,
                   optimizer=optimizer,
-                  save_dir=SAVE_DIR,
+                  save_dir=SAVE_DIR+"_temp",
                   trainOnBatch=train_on_batch,
                   train_loader=train,
                   val_loader=val,
