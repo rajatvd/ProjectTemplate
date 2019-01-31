@@ -4,7 +4,8 @@ Run this script to train a ConvNet on MNIST.
 import torch
 from torch import optim
 
-from sacred import Experiment, SETTINGS
+from sacred import Experiment
+from sacred.utils import apply_backspaces_and_linefeeds
 from sacred.observers import FileStorageObserver
 from visdom_observer.visdom_observer import VisdomObserver
 import pytorch_utils.sacred_trainer as st
@@ -18,10 +19,10 @@ from training_functions import train_on_batch, create_val_scheduler_callback
 
 torch.backends.cudnn.benchmark = True
 
-SETTINGS.CAPTURE_MODE = 'no'
 
 ex = Experiment('mnist_classification',
                 ingredients=[model_ingredient, data_ingredient])
+ex.captured_out_filter = apply_backspaces_and_linefeeds
 SAVE_DIR = 'MnistClassification'
 ex.observers.append(FileStorageObserver.create(SAVE_DIR))
 ex.observers.append(VisdomObserver())
