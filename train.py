@@ -25,7 +25,7 @@ ex = Experiment('mnist_classification',
 ex.captured_out_filter = apply_backspaces_and_linefeeds
 SAVE_DIR = 'MnistClassification'
 ex.observers.append(FileStorageObserver.create(SAVE_DIR))
-ex.observers.append(VisdomObserver())
+# ex.observers.append(VisdomObserver())
 
 
 # ----------------OPTIMIZER-----------------
@@ -38,9 +38,9 @@ def optimizer_config():
         adamax
         rmsprop
     """
-    lr = 0.001 # learning rate
-    opt = 'adam' # type of optimzier
-    weight_decay = 0 # l2 regularization weight_decay (lambda)
+    lr = 0.001  # learning rate
+    opt = 'adam'  # type of optimzier
+    weight_decay = 0  # l2 regularization weight_decay (lambda)
 
 
 @ex.capture
@@ -48,9 +48,9 @@ def make_optimizer(model, lr, opt, weight_decay):
     """Make an optimizer of the given type (opt), for the given model's
     parameters with the given learning rate (lr)"""
     optimizers = {
-        'adam':optim.Adam,
-        'adamax':optim.Adamax,
-        'rmsprop':optim.RMSprop,
+        'adam': optim.Adam,
+        'adamax': optim.Adamax,
+        'rmsprop': optim.RMSprop,
     }
 
     optimizer = optimizers[opt](model.parameters(), lr=lr,
@@ -65,7 +65,8 @@ def make_optimizer(model, lr, opt, weight_decay):
 def scheduler_config():
     """Config for lr scheduler"""
     milestones = [50, 100]
-    gamma = 0.5 # factor to reduce lr by at each milestone
+    gamma = 0.5  # factor to reduce lr by at each milestone
+
 
 @ex.capture
 def make_scheduler_callback(optimizer, milestones, gamma):
@@ -80,6 +81,7 @@ def train_config():
     save_every = 1
     start_epoch = 1
 
+
 @ex.automain
 def main(_run):
 
@@ -93,11 +95,12 @@ def main(_run):
            **dict(_run=_run,
                   model=model,
                   optimizer=optimizer,
-                  save_dir=SAVE_DIR+"_temp",
+                  save_dir=SAVE_DIR + "_temp",
                   trainOnBatch=train_on_batch,
                   train_loader=train,
                   val_loader=val,
                   callback=callback,
-                  callback_metric_names=['val_loss', 'val_acc', 'learning_rate'],
+                  callback_metric_names=[
+                      'val_loss', 'val_acc', 'learning_rate'],
                   batch_metric_names=['loss', 'acc'],
                   updaters=[averager, averager])})
